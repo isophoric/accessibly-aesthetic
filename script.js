@@ -32,6 +32,10 @@ function updatePalette() {
     document.documentElement.style.setProperty('--bg', bgHex);
     document.documentElement.style.setProperty('--text', textHex);
     document.documentElement.style.setProperty('--accent', accentHex);
+    
+    // Update Slider Track Color based on Mode (Visible line fix)
+    const trackColor = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+    document.documentElement.style.setProperty('--track-color', trackColor);
 
     // Update Text
     document.getElementById('hex-bg').innerText = bgHex;
@@ -47,27 +51,30 @@ function updatePalette() {
 
     // Contrast Check & Subtitle Update
     const contrast = wcagContrast(accentHex, bgHex);
-    const ratio = contrast.toFixed(2);
+    const ratio = contrast.toFixed(2); // Specific ratio (e.g., 4.32)
     
-    let statusText = "";
-    let complianceText = "";
+    let passOrFail = "fails";
+    let complianceLevel = "Fails WCAG";
+    let wcagLink = "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html";
 
-    // WCAG AA requires 4.5:1 for normal text, 3:1 for large text.
-    // Since this is a general palette tool, we usually aim for 4.5.
-    if (contrast >= 4.5) {
-        statusText = "passes";
-        complianceText = "WCAG AA Compliant";
-        subtitle.style.color = "var(--text)"; // Normal text color
+    // Logic for WCAG Compliance Levels
+    if (contrast >= 7.0) {
+        passOrFail = "passes";
+        complianceLevel = "WCAG AAA Compliant";
+    } else if (contrast >= 4.5) {
+        passOrFail = "passes";
+        complianceLevel = "WCAG AA Compliant";
+    } else if (contrast >= 3.0) {
+        // Technically passes for Large Text, but usually considered a partial pass/fail for generic UI
+        passOrFail = "partially passes"; 
+        complianceLevel = "WCAG AA Large Text Only";
     } else {
-        statusText = "fails";
-        complianceText = "Fails WCAG AA";
-        // Optional: make the subtitle red if it fails, or keep it neutral.
-        // Keeping it neutral usually looks cleaner, but let's just ensure opacity is reset
-        subtitle.style.color = "var(--text)"; 
+        passOrFail = "fails";
+        complianceLevel = "Fails WCAG";
     }
 
-    // Update the subtitle sentence
-    subtitle.innerText = `Your current palette ${statusText} with a ${ratio}:1 contrast ratio. (${complianceText})`;
+    // Insert HTML into subtitle with Link
+    subtitle.innerHTML = `Your current palette ${passOrFail} with a ${ratio}:1 contrast ratio. (<a href="${wcagLink}" target="_blank" rel="noopener noreferrer">${complianceLevel}</a>)`;
 }
 
 hueInput.addEventListener('input', updatePalette);
