@@ -6,7 +6,7 @@ const valHue = document.getElementById('val-hue');
 const valChroma = document.getElementById('val-chroma');
 const modeBtn = document.getElementById('mode-toggle');
 const cssCodeBlock = document.getElementById('css-code');
-const contrastBadge = document.getElementById('contrast-badge');
+const subtitle = document.getElementById('dynamic-subtitle');
 
 let isDark = false;
 
@@ -45,22 +45,29 @@ function updatePalette() {
   --accent: ${accentHex};
 }`;
 
-    // Contrast Check
+    // Contrast Check & Subtitle Update
     const contrast = wcagContrast(accentHex, bgHex);
+    const ratio = contrast.toFixed(2);
     
+    let statusText = "";
+    let complianceText = "";
+
+    // WCAG AA requires 4.5:1 for normal text, 3:1 for large text.
+    // Since this is a general palette tool, we usually aim for 4.5.
     if (contrast >= 4.5) {
-        contrastBadge.innerText = `Pass (${contrast.toFixed(2)})`;
-        contrastBadge.style.background = isDark ? '#4ade80' : '#16a34a';
-        contrastBadge.style.color = isDark ? '#000' : '#fff';
-    } else if (contrast >= 3.0) {
-        contrastBadge.innerText = `Large Text (${contrast.toFixed(2)})`;
-        contrastBadge.style.background = '#facc15';
-        contrastBadge.style.color = '#000';
+        statusText = "passes";
+        complianceText = "WCAG AA Compliant";
+        subtitle.style.color = "var(--text)"; // Normal text color
     } else {
-        contrastBadge.innerText = `Fail (${contrast.toFixed(2)})`;
-        contrastBadge.style.background = '#ef4444';
-        contrastBadge.style.color = '#fff';
+        statusText = "fails";
+        complianceText = "Fails WCAG AA";
+        // Optional: make the subtitle red if it fails, or keep it neutral.
+        // Keeping it neutral usually looks cleaner, but let's just ensure opacity is reset
+        subtitle.style.color = "var(--text)"; 
     }
+
+    // Update the subtitle sentence
+    subtitle.innerText = `Your current palette ${statusText} with a ${ratio}:1 contrast ratio. (${complianceText})`;
 }
 
 hueInput.addEventListener('input', updatePalette);
