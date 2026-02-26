@@ -1,0 +1,109 @@
+
+@import url('https://fonts.cdnfonts.com/css/nohemi');
+
+:root {
+    /* default color */
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --accent: #6366f1;
+    
+    --font-title: 'Nohemi', sans-serif;
+    --font-mono: 'Consolas', 'Courier New', monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--font-mono);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    width: 90%;
+    max-width: 1200px;
+    gap: 4rem;
+}
+
+.title {
+    font-family: var(--font-title);
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.description {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+}
+
+.stats-row {
+    background: var(--accent);
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+    color: var(--bg); /* ensures labels pop against accent */
+}
+
+.stat-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.9; }
+.hex-value { font-size: 1.5rem; font-weight: bold; }
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    margin-top: 4px;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* sidebar controls */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.control-group label { font-size: 1.2rem; }
+.label-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
+
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+button {
+    padding: 1rem;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.code-output {
+    background: rgba(0,0,0,0.05);
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}

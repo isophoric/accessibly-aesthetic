@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibly Aesthetic</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/culori@3/build/culori.min.js"></script>
+</head>
+<body>
+    <main class="app-container">
+        <section class="preview-area">
+            <h1 class="title">Accessibly Aesthetic</h1>
+            <p class="description">create visually appealing & accessible color palettes</p>
+            
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="label">Background:</span>
+                    <span id="hex-bg" class="hex-value">#ffffff</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Text:</span>
+                    <span id="hex-text" class="hex-value">#000000</span>
+                </div>
+                <div class="stat-card">
+                    <span class="label">Accent:</span>
+                    <span id="hex-accent" class="hex-value">#6366f1</span>
+                    <span id="contrast-badge" class="badge">Pass</span>
+                </div>
+            </div>
+        </section>
+
+        <aside class="controls">
+            <div class="control-group">
+                <div class="label-row">
+                    <label>Hue</label>
+                    <span id="val-hue">270</span>
+                </div>
+                <input type="range" id="input-hue" min="0" max="360" value="270">
+            </div>
+
+            <div class="control-group">
+                <div class="label-row">
+                    <label>Chroma</label>
+                    <span id="val-chroma">0.15</span>
+                </div>
+                <input type="range" id="input-chroma" min="0" max="0.37" step="0.01" value="0.15">
+            </div>
+
+            <button id="mode-toggle">Switch to Dark Mode</button>
+
+            <div class="code-output">
+                <pre><code id="css-code">
+:root {
+  --color-bg: #...;
+  --color-text: #...;
+  --color-accent: #...;
+}
+                </code></pre>
+            </div>
+        </aside>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
