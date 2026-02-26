@@ -18,22 +18,6 @@ http://accessiblyaesthetic.xyz
 
 -   **HTML5:** 
 -   **CSS3:** 
--   **JavaScript (ES6+)**
+-   **JavaScript**
 -   **Culori:**
 
-## Usage
-
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/accessibly-aesthetic.git
-    ```
-2.  Navigate to the project directory:
-    ```bash
-    cd accessibly-aesthetic
-    ```
-3.  Open `index.html` in your browser.
-    *   *Note: Because this project uses ES Modules (`import`), you must run it via a local server (like Live Server in VS Code) rather than opening the file directly.*
-
-## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
