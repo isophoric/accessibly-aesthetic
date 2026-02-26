@@ -4,14 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accessibly Aesthetic</title>
+    <!-- Google Fonts: Bebas Neue (Title) and Inter (Body text) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style.css">
-    <!-- We removed the culori script from here. We will import it inside script.js -->
 </head>
 <body>
     <main class="app-container">
+        <!-- Left Column: Title & Stats -->
         <section class="preview-area">
-            <h1 class="title">Accessibly Aesthetic</h1>
-            <p class="description">create visually appealing & accessible color palettes</p>
+            <div class="header-content">
+                <h1 class="title">Accessibly Aesthetic</h1>
+                <p class="description">Create visually appealing & accessible color palettes.</p>
+            </div>
             
             <div class="stats-row">
                 <div class="stat-card">
@@ -25,19 +32,18 @@
                 <div class="stat-card">
                     <span class="label">Accent:</span>
                     <span id="hex-accent" class="hex-value">#6366f1</span>
-                    <!-- Contrast badge now has a dynamic ID -->
                     <span id="contrast-badge" class="badge">Pass</span>
                 </div>
             </div>
         </section>
 
+        <!-- Right Column: Controls -->
         <aside class="controls">
             <div class="control-group">
                 <div class="label-row">
                     <label>Hue</label>
                     <span id="val-hue">270</span>
                 </div>
-                <!-- Added aria-label for accessibility -->
                 <input type="range" id="input-hue" min="0" max="360" value="270" aria-label="Hue">
             </div>
 
@@ -52,7 +58,6 @@
             <button id="mode-toggle">Switch to Dark Mode</button>
 
             <div class="code-output">
-                <!-- Added formatting to keep indentation -->
                 <pre><code id="css-code">:root {
   --bg: #ffffff;
   --text: #000000;
@@ -62,7 +67,6 @@
         </aside>
     </main>
 
-    <!-- KEY CHANGE: type="module" allows us to import libraries directly in JS -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
