@@ -4,6 +4,9 @@
     --text: #1a1a1a;
     --accent: #6366f1;
     
+    /* Dynamic track color for sliders to ensure visibility */
+    --track-color: rgba(0, 0, 0, 0.2);
+
     /* Fonts */
     --font-title: 'Lexend', sans-serif;
     --font-mono: 'SF Mono', 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
@@ -30,14 +33,23 @@ body {
     padding: 2rem;
 }
 
+/* Link styling inside subtitle */
+a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+a:hover {
+    opacity: 0.8;
+}
+
 .app-container {
     display: grid;
-    /* 1fr 1fr ensures roughly equal width columns, adjusting specific widths below */
+    /* 1.2fr 0.8fr balance */
     grid-template-columns: 1.2fr 0.8fr; 
     width: 100%;
     max-width: 1200px;
     gap: 5rem;
-    /* Stretch ensures both columns are the same height, helping vertical alignment */
     align-items: stretch; 
 }
 
@@ -45,7 +57,7 @@ body {
 .preview-area {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes content to edges if needed */
+    justify-content: space-between;
     gap: 3rem; 
     align-items: flex-start;
 }
@@ -67,13 +79,13 @@ body {
     font-size: 1.1rem;
     opacity: 0.8;
     line-height: 1.6;
-    max-width: 100%; /* Allows text to define the width up to the column limit */
+    max-width: 100%; 
     font-family: var(--font-mono);
 }
 
 .stats-row {
     background: var(--accent);
-    padding: 2.5rem 2rem; /* Increased padding for better proportions */
+    padding: 2.5rem 2rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -81,8 +93,6 @@ body {
     color: var(--bg); 
     border-radius: var(--radius);
     transition: background-color 0.3s ease;
-    
-    /* ALIGNMENT FIX: 100% Width ensures it matches the subtitle alignment */
     width: 100%; 
 }
 
@@ -111,16 +121,20 @@ body {
 .controls {
     display: flex;
     flex-direction: column;
-    /* ALIGNMENT FIX: Pushes the code box to the bottom */
     justify-content: space-between; 
-    height: 100%; /* Uses full height of the grid cell */
+    height: 100%; 
     gap: 2rem;
+    width: 100%; /* Ensure right column fills grid cell */
 }
 
 .controls-top {
     display: flex;
     flex-direction: column;
-    gap: 3rem; /* Increased gap to make sliders/button take more space */
+    gap: 2.5rem; /* Space between sliders and button */
+    width: 100%;
+}
+
+.control-group {
     width: 100%;
 }
 
@@ -132,7 +146,7 @@ body {
 .label-row { 
     display: flex; 
     justify-content: space-between; 
-    margin-bottom: 1rem; 
+    margin-bottom: 0.5rem; 
     font-family: var(--font-mono);
 }
 
@@ -142,34 +156,37 @@ input[type="range"] {
     width: 100%;
     background: transparent; 
     cursor: pointer;
-    margin-top: 0.5rem; /* Add breathing room */
+    margin-top: 0.5rem; 
+    display: block; /* Ensures it behaves as a block element */
 }
 
 /* Webkit Track (Chrome/Safari/Edge) */
 input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
-    height: 6px;
-    background: rgba(0,0,0,0.1); /* Visible grey track */
+    height: 4px; /* Slightly thinner track looks cleaner */
+    background: var(--track-color); 
     border-radius: 5px;
+    border: none;
 }
 
 /* Firefox Track */
 input[type="range"]::-moz-range-track {
     width: 100%;
-    height: 6px;
-    background: rgba(0,0,0,0.1);
+    height: 4px;
+    background: var(--track-color);
     border-radius: 5px;
+    border: none;
 }
 
 /* Webkit Thumb */
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 24px; /* Slightly larger target */
+    height: 24px; 
     width: 24px;
     border-radius: 50%;
     background: var(--accent);
-    margin-top: -9px; /* Centering math: (6 - 24) / 2 */
-    box-shadow: 0 0 0 4px var(--bg); /* Thicker border "cutout" effect */
+    margin-top: -10px; /* (Track 4px - Thumb 24px) / 2 = -10px */
+    box-shadow: 0 0 0 4px var(--bg); 
     border: 1px solid rgba(0,0,0,0.1);
 }
 
@@ -185,7 +202,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 button {
-    padding: 1.5rem; /* Larger button */
+    padding: 1.5rem; 
     background: var(--text);
     color: var(--bg);
     border: none;
@@ -195,7 +212,8 @@ button {
     cursor: pointer;
     border-radius: var(--radius);
     transition: transform 0.1s ease;
-    width: 100%;
+    width: 100%; /* Force full width alignment */
+    display: block;
 }
 
 button:active {
@@ -209,7 +227,7 @@ button:active {
     border-radius: var(--radius);
     font-family: var(--font-mono);
     overflow-x: auto;
-    /* Aligns vertically with the Color Card (Stats Row) because flex-between pushes it down */
+    width: 100%; /* Force full width alignment */
 }
 
 /* --- Mobile / Tablet Responsive --- */
@@ -235,7 +253,6 @@ button:active {
         align-items: center;
     }
 
-    /* Reset right column vertical spacing on mobile so it doesn't stretch weirdly */
     .controls {
         height: auto; 
         justify-content: flex-start;
