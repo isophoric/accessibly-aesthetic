@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -17,12 +17,11 @@
         <section class="preview-area">
             <div class="header-content">
                 <h1 class="title">Accessibly Aesthetic</h1>
-                <!-- Subtitle is dynamic -->
                 <p id="dynamic-subtitle" class="description">
                     Loading contrast data...
                 </p>
             </div>
-            
+
             <div class="stats-row">
                 <div class="stat-card">
                     <span class="label">Background:</span>
@@ -62,12 +61,16 @@
                 <button id="mode-toggle">Switch to Dark Mode</button>
             </div>
 
+            <!-- Code Output Card with Copy Button -->
             <div class="code-output">
-                <pre><code id="css-code">:root {
+                <div class="code-scroll-wrapper">
+                    <pre><code id="css-code">:root {
   --bg: #ffffff;
   --text: #000000;
   --accent: #6366f1;
 }</code></pre>
+                </div>
+                <button id="copy-btn" class="copy-btn" aria-label="Copy Code">Copy</button>
             </div>
         </aside>
     </main>
