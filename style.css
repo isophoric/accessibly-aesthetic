@@ -229,9 +229,9 @@ button#mode-toggle {
         box-shadow: 0 2px 0 var(--text);
     }
 
-/* --- THE CRISPY CODE CARD --- */
+/* --- THE CLICKABLE CODE CARD --- */
 .code-output {
-    position: relative; /* Allows absolute positioning of the copy button */
+    position: relative;
     background: rgba(0,0,0,0.03);
     padding: 2rem;
     font-size: 1rem;
@@ -241,11 +241,17 @@ button#mode-toggle {
     /* Neo-Brutalist Border & Shadow */
     border: 3px solid var(--accent);
     box-shadow: 0 8px 0 var(--accent);
-    /* Interactive Transition */
+    /* Interactive Settings */
+    cursor: pointer; /* Changes cursor to hand */
+    user-select: none; /* Prevents text highlighting when clicking repeatedly */
     transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
 }
 
-    /* The Press Animation for the Code Card */
+    .code-output:hover {
+        background: rgba(0,0,0,0.05); /* Slight darken on hover */
+    }
+
+    /* The Press Animation */
     .code-output:active {
         transform: translateY(4px);
         box-shadow: 0 4px 0 var(--accent);
@@ -254,37 +260,21 @@ button#mode-toggle {
 .code-scroll-wrapper {
     overflow-x: auto;
     width: 100%;
-    padding-right: 4rem; /* Ensure text doesn't hide behind the button */
+    padding-bottom: 1.5rem; /* Space for the instruction text below */
 }
 
-/* --- The Copy Button --- */
-.copy-btn {
+/* Instruction Text Styling */
+.copy-instruction {
     position: absolute;
-    top: 1rem;
+    bottom: 0.75rem;
     right: 1rem;
-    /* Smaller version of the main button style */
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    background: var(--bg);
-    color: var(--accent);
-    border: 2px solid var(--accent);
-/*    box-shadow: 2px 2px 0 var(--text);*/
-    border-radius: 6px;
-    transition: all 0.1s ease;
+    text-transform: uppercase;
+    opacity: 0.6;
+    pointer-events: none; /* Lets clicks pass through to the card */
+    transition: opacity 0.2s;
 }
-
-    .copy-btn:hover {
-        background: var(--text);
-        color: var(--bg);
-    }
-
-    .copy-btn:active {
-        transform: translateY(2px);
-        box-shadow: 0 0 0 var(--text);
-    }
 
 /* --- Mobile / Tablet Responsive --- */
 @media (max-width: 900px) {
