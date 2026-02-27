@@ -3,14 +3,11 @@
     --bg: #ffffff;
     --text: #1a1a1a;
     --accent: #6366f1;
-    
-    /* Dynamic track color for sliders */
+    /* Dynamic track color */
     --track-color: rgba(0, 0, 0, 0.2);
-
     /* Fonts */
     --font-title: 'Lexend', sans-serif;
     --font-mono: 'SF Mono', 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
-
     /* Shape consistency */
     --radius: 12px;
 }
@@ -24,7 +21,7 @@
 body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: var(--font-mono); 
+    font-family: var(--font-mono);
     transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
     display: flex;
@@ -38,17 +35,18 @@ a {
     text-decoration: underline;
     text-underline-offset: 3px;
 }
-a:hover {
-    opacity: 0.8;
-}
+
+    a:hover {
+        opacity: 0.8;
+    }
 
 .app-container {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr; 
+    grid-template-columns: 1.2fr 0.8fr;
     width: 100%;
     max-width: 1200px;
     gap: 5rem;
-    align-items: stretch; 
+    align-items: stretch;
 }
 
 /* --- Left Column --- */
@@ -56,7 +54,7 @@ a:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 3rem; 
+    gap: 3rem;
     align-items: flex-start;
 }
 
@@ -67,7 +65,7 @@ a:hover {
 .title {
     font-family: var(--font-title);
     font-weight: 500;
-    font-size: clamp(4rem, 9vw, 7.5rem); 
+    font-size: clamp(4rem, 9vw, 7.5rem);
     line-height: 1.05;
     margin-bottom: 1.5rem;
     letter-spacing: -2px;
@@ -77,7 +75,7 @@ a:hover {
     font-size: 1.3rem;
     opacity: 0.9;
     line-height: 1.6;
-    max-width: 100%; 
+    max-width: 100%;
     font-family: var(--font-mono);
 }
 
@@ -89,23 +87,18 @@ a:hover {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 2rem;
-    color: var(--bg); 
+    color: var(--bg);
     border-radius: var(--radius);
     transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
-    width: 100%; 
-    
-    /* 1. Border is Text Color */
+    width: 100%;
     border: 3px solid var(--text);
-    
-    /* 2. Elongated Bottom (Hard Shadow) is Text Color */
     box-shadow: 0 8px 0 var(--text);
 }
 
-/* Optional: Subtle press effect on the card */
-.stats-row:active {
-    transform: translateY(4px);
-    box-shadow: 0 4px 0 var(--text);
-}
+    .stats-row:active {
+        transform: translateY(4px);
+        box-shadow: 0 4px 0 var(--text);
+    }
 
 .stat-card {
     display: flex;
@@ -113,27 +106,27 @@ a:hover {
     min-width: 120px;
 }
 
-.label { 
-    font-size: 0.9rem; 
-    text-transform: uppercase; 
-    opacity: 0.9; 
+.label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    opacity: 0.9;
     font-weight: 600;
     margin-bottom: 0.5rem;
     letter-spacing: 1px;
 }
 
-.hex-value { 
+.hex-value {
     font-family: var(--font-mono);
-    font-size: 1.8rem; 
-    font-weight: bold; 
+    font-size: 1.8rem;
+    font-weight: bold;
 }
 
-/* --- Right Column (Controls) --- */
+/* --- Right Column --- */
 .controls {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    height: 100%; 
+    justify-content: space-between;
+    height: 100%;
     gap: 2rem;
     width: 100%;
 }
@@ -149,78 +142,73 @@ a:hover {
     width: 100%;
 }
 
-.control-group label { 
-    font-weight: 600;
-    font-size: 1.1rem; 
-}
+    .control-group label {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
 
-.label-row { 
-    display: flex; 
-    justify-content: space-between; 
-    margin-bottom: 0.75rem; 
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
     font-family: var(--font-mono);
     font-size: 1.1rem;
 }
 
-/* --- Fixed Slider CSS --- */
+/* --- Sliders --- */
 input[type="range"] {
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
     width: 100%;
-    background: transparent; 
+    background: transparent;
     cursor: pointer;
-    margin-top: 0.5rem; 
+    margin-top: 0.5rem;
     display: block;
 }
 
-input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 4px;
-    background: var(--track-color); 
-    border-radius: 5px;
-    border: none;
-}
+    input[type="range"]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 4px;
+        background: var(--track-color);
+        border-radius: 5px;
+        border: none;
+    }
 
-input[type="range"]::-moz-range-track {
-    width: 100%;
-    height: 4px;
-    background: var(--track-color);
-    border-radius: 5px;
-    border: none;
-}
+    input[type="range"]::-moz-range-track {
+        width: 100%;
+        height: 4px;
+        background: var(--track-color);
+        border-radius: 5px;
+        border: none;
+    }
 
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 26px;
-    width: 26px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-top: -11px;
-    box-shadow: 0 0 0 4px var(--bg); 
-    border: 2px solid var(--text); /* Added border to match theme */
-}
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 26px;
+        width: 26px;
+        border-radius: 50%;
+        background: var(--accent);
+        margin-top: -11px;
+        box-shadow: 0 0 0 4px var(--bg);
+        border: 2px solid var(--text);
+    }
 
-input[type="range"]::-moz-range-thumb {
-    height: 26px;
-    width: 26px;
-    border: none;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 4px var(--bg);
-    border: 2px solid var(--text);
-}
+    input[type="range"]::-moz-range-thumb {
+        height: 26px;
+        width: 26px;
+        border: none;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px var(--bg);
+        border: 2px solid var(--text);
+    }
 
-/* --- THE HOLLOW TO FILLED BUTTON --- */
-button {
-    padding: 1.5rem; 
-    
-    /* Default State: Hollow */
+/* --- Main Buttons --- */
+button#mode-toggle {
+    padding: 1.5rem;
     background: transparent;
     color: var(--text);
     border: 3px solid var(--text);
-    
-    /* 3D Effect for consistency */
     box-shadow: 0 6px 0 var(--text);
-    
     font-family: var(--font-mono);
     font-weight: 600;
     font-size: 1.1rem;
@@ -231,35 +219,72 @@ button {
     display: block;
 }
 
-/* Hover State: Filled */
-button:hover {
-    background: var(--text);
-    color: var(--bg);
-    /* We keep the shadow on hover for a solid look */
-}
+    button#mode-toggle:hover {
+        background: var(--text);
+        color: var(--bg);
+    }
 
-/* Click State: Presses down */
-button:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 var(--text);
-}
+    button#mode-toggle:active {
+        transform: translateY(4px);
+        box-shadow: 0 2px 0 var(--text);
+    }
 
 /* --- THE CRISPY CODE CARD --- */
 .code-output {
-    background: rgba(0,0,0,0.03); /* Very subtle background */
+    position: relative; /* Allows absolute positioning of the copy button */
+    background: rgba(0,0,0,0.03);
     padding: 2rem;
     font-size: 1rem;
     border-radius: var(--radius);
     font-family: var(--font-mono);
+    width: 100%;
+    /* Neo-Brutalist Border & Shadow */
+    border: 3px solid var(--accent);
+    box-shadow: 0 8px 0 var(--accent);
+    /* Interactive Transition */
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+    /* The Press Animation for the Code Card */
+    .code-output:active {
+        transform: translateY(4px);
+        box-shadow: 0 4px 0 var(--accent);
+    }
+
+.code-scroll-wrapper {
     overflow-x: auto;
     width: 100%;
-    
-    /* 1. Border is Accent Color */
-    border: 3px solid var(--accent);
-    
-    /* 2. Elongated Bottom (Hard Shadow) is Accent Color */
-    box-shadow: 0 8px 0 var(--accent);
+    padding-right: 4rem; /* Ensure text doesn't hide behind the button */
 }
+
+/* --- The Copy Button --- */
+.copy-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    /* Smaller version of the main button style */
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    background: var(--bg);
+    color: var(--accent);
+    border: 2px solid var(--accent);
+/*    box-shadow: 2px 2px 0 var(--text);*/
+    border-radius: 6px;
+    transition: all 0.1s ease;
+}
+
+    .copy-btn:hover {
+        background: var(--text);
+        color: var(--bg);
+    }
+
+    .copy-btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 0 0 var(--text);
+    }
 
 /* --- Mobile / Tablet Responsive --- */
 @media (max-width: 900px) {
@@ -270,8 +295,8 @@ button:active {
     }
 
     .preview-area {
-        align-items: center; 
-        text-align: center; 
+        align-items: center;
+        text-align: center;
         gap: 2rem;
     }
 
@@ -279,13 +304,13 @@ button:active {
         justify-content: center;
         gap: 3rem;
     }
-    
+
     .stat-card {
         align-items: center;
     }
 
     .controls {
-        height: auto; 
+        height: auto;
         justify-content: flex-start;
         gap: 3rem;
     }
