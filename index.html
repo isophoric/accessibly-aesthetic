@@ -61,8 +61,9 @@
                 <button id="mode-toggle">Switch to Dark Mode</button>
             </div>
 
-            <!-- Code Output Card with Copy Button -->
-            <div class="code-output">
+            <!-- Code Output Card (Clickable) -->
+            <!-- Added id="code-card" and a title attribute for accessibility -->
+            <div class="code-output" id="code-card" title="Click to copy code">
                 <div class="code-scroll-wrapper">
                     <pre><code id="css-code">:root {
   --bg: #ffffff;
@@ -70,7 +71,8 @@
   --accent: #6366f1;
 }</code></pre>
                 </div>
-                <button id="copy-btn" class="copy-btn" aria-label="Copy Code">Copy</button>
+                <!-- New Instruction Text -->
+                <span id="copy-text" class="copy-instruction">Click me to copy!</span>
             </div>
         </aside>
     </main>
