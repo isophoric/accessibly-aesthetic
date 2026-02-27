@@ -7,6 +7,7 @@ const valChroma = document.getElementById('val-chroma');
 const modeBtn = document.getElementById('mode-toggle');
 const cssCodeBlock = document.getElementById('css-code');
 const subtitle = document.getElementById('dynamic-subtitle');
+const copyBtn = document.getElementById('copy-btn');
 
 let isDark = false;
 
@@ -33,7 +34,7 @@ function updatePalette() {
     document.documentElement.style.setProperty('--text', textHex);
     document.documentElement.style.setProperty('--accent', accentHex);
     
-    // Update Slider Track Color based on Mode (Visible line fix)
+    // Update Slider Track Color based on Mode
     const trackColor = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
     document.documentElement.style.setProperty('--track-color', trackColor);
 
@@ -51,13 +52,12 @@ function updatePalette() {
 
     // Contrast Check & Subtitle Update
     const contrast = wcagContrast(accentHex, bgHex);
-    const ratio = contrast.toFixed(2); // Specific ratio (e.g., 4.32)
+    const ratio = contrast.toFixed(2);
     
     let passOrFail = "fails";
     let complianceLevel = "Fails WCAG";
     let wcagLink = "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html";
 
-    // Logic for WCAG Compliance Levels
     if (contrast >= 7.0) {
         passOrFail = "passes";
         complianceLevel = "WCAG AAA Compliant";
@@ -65,7 +65,6 @@ function updatePalette() {
         passOrFail = "passes";
         complianceLevel = "WCAG AA Compliant";
     } else if (contrast >= 3.0) {
-        // Technically passes for Large Text, but usually considered a partial pass/fail for generic UI
         passOrFail = "partially passes"; 
         complianceLevel = "WCAG AA Large Text Only";
     } else {
@@ -73,9 +72,27 @@ function updatePalette() {
         complianceLevel = "Fails WCAG";
     }
 
-    // Insert HTML into subtitle with Link
+    // Update Subtitle
     subtitle.innerHTML = `Your current palette ${passOrFail} with a ${ratio}:1 contrast ratio. (<a href="${wcagLink}" target="_blank" rel="noopener noreferrer">${complianceLevel}</a>)`;
 }
+
+// COPY BUTTON LOGIC
+copyBtn.addEventListener('click', () => {
+    const codeText = cssCodeBlock.innerText;
+    
+    navigator.clipboard.writeText(codeText).then(() => {
+        // Visual Feedback
+        const originalText = copyBtn.innerText;
+        copyBtn.innerText = "Copied!";
+        
+        // Revert back after 2 seconds
+        setTimeout(() => {
+            copyBtn.innerText = originalText;
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
+});
 
 hueInput.addEventListener('input', updatePalette);
 chromaInput.addEventListener('input', updatePalette);
