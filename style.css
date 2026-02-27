@@ -3,11 +3,14 @@
     --bg: #ffffff;
     --text: #1a1a1a;
     --accent: #6366f1;
-    /* Dynamic track color */
+    
+    /* Dynamic track color for sliders */
     --track-color: rgba(0, 0, 0, 0.2);
+
     /* Fonts */
     --font-title: 'Lexend', sans-serif;
     --font-mono: 'SF Mono', 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
+
     /* Shape consistency */
     --radius: 12px;
 }
@@ -21,7 +24,7 @@
 body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: var(--font-mono);
+    font-family: var(--font-mono); 
     transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
     display: flex;
@@ -35,18 +38,17 @@ a {
     text-decoration: underline;
     text-underline-offset: 3px;
 }
-
-    a:hover {
-        opacity: 0.8;
-    }
+a:hover {
+    opacity: 0.8;
+}
 
 .app-container {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 1.2fr 0.8fr; 
     width: 100%;
     max-width: 1200px;
     gap: 5rem;
-    align-items: stretch;
+    align-items: stretch; 
 }
 
 /* --- Left Column --- */
@@ -54,7 +56,7 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 3rem;
+    gap: 3rem; 
     align-items: flex-start;
 }
 
@@ -65,7 +67,7 @@ a {
 .title {
     font-family: var(--font-title);
     font-weight: 500;
-    font-size: clamp(4rem, 9vw, 7.5rem);
+    font-size: clamp(4rem, 9vw, 7.5rem); 
     line-height: 1.05;
     margin-bottom: 1.5rem;
     letter-spacing: -2px;
@@ -75,7 +77,7 @@ a {
     font-size: 1.3rem;
     opacity: 0.9;
     line-height: 1.6;
-    max-width: 100%;
+    max-width: 100%; 
     font-family: var(--font-mono);
 }
 
@@ -87,18 +89,23 @@ a {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 2rem;
-    color: var(--bg);
+    color: var(--bg); 
     border-radius: var(--radius);
     transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
-    width: 100%;
+    width: 100%; 
+    
+    /* 1. Border is Text Color */
     border: 3px solid var(--text);
+    
+    /* 2. Elongated Bottom (Hard Shadow) is Text Color */
     box-shadow: 0 8px 0 var(--text);
 }
 
-    .stats-row:active {
-        transform: translateY(4px);
-        box-shadow: 0 4px 0 var(--text);
-    }
+/* Optional: Subtle press effect on the card */
+.stats-row:active {
+    transform: translateY(4px);
+    box-shadow: 0 4px 0 var(--text);
+}
 
 .stat-card {
     display: flex;
@@ -106,27 +113,27 @@ a {
     min-width: 120px;
 }
 
-.label {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    opacity: 0.9;
+.label { 
+    font-size: 0.9rem; 
+    text-transform: uppercase; 
+    opacity: 0.9; 
     font-weight: 600;
     margin-bottom: 0.5rem;
     letter-spacing: 1px;
 }
 
-.hex-value {
+.hex-value { 
     font-family: var(--font-mono);
-    font-size: 1.8rem;
-    font-weight: bold;
+    font-size: 1.8rem; 
+    font-weight: bold; 
 }
 
-/* --- Right Column --- */
+/* --- Right Column (Controls) --- */
 .controls {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    justify-content: space-between; 
+    height: 100%; 
     gap: 2rem;
     width: 100%;
 }
@@ -142,73 +149,78 @@ a {
     width: 100%;
 }
 
-    .control-group label {
-        font-weight: 600;
-        font-size: 1.1rem;
-    }
+.control-group label { 
+    font-weight: 600;
+    font-size: 1.1rem; 
+}
 
-.label-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.75rem;
+.label-row { 
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 0.75rem; 
     font-family: var(--font-mono);
     font-size: 1.1rem;
 }
 
-/* --- Sliders --- */
+/* --- Fixed Slider CSS --- */
 input[type="range"] {
-    -webkit-appearance: none;
+    -webkit-appearance: none; 
     width: 100%;
-    background: transparent;
+    background: transparent; 
     cursor: pointer;
-    margin-top: 0.5rem;
+    margin-top: 0.5rem; 
     display: block;
 }
 
-    input[type="range"]::-webkit-slider-runnable-track {
-        width: 100%;
-        height: 4px;
-        background: var(--track-color);
-        border-radius: 5px;
-        border: none;
-    }
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    background: var(--track-color); 
+    border-radius: 5px;
+    border: none;
+}
 
-    input[type="range"]::-moz-range-track {
-        width: 100%;
-        height: 4px;
-        background: var(--track-color);
-        border-radius: 5px;
-        border: none;
-    }
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 4px;
+    background: var(--track-color);
+    border-radius: 5px;
+    border: none;
+}
 
-    input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        height: 26px;
-        width: 26px;
-        border-radius: 50%;
-        background: var(--accent);
-        margin-top: -11px;
-        box-shadow: 0 0 0 4px var(--bg);
-        border: 2px solid var(--text);
-    }
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: -11px;
+    box-shadow: 0 0 0 4px var(--bg); 
+    border: 2px solid var(--text); /* Added border to match theme */
+}
 
-    input[type="range"]::-moz-range-thumb {
-        height: 26px;
-        width: 26px;
-        border: none;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 0 4px var(--bg);
-        border: 2px solid var(--text);
-    }
+input[type="range"]::-moz-range-thumb {
+    height: 26px;
+    width: 26px;
+    border: none;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--bg);
+    border: 2px solid var(--text);
+}
 
-/* --- Main Buttons --- */
-button#mode-toggle {
-    padding: 1.5rem;
+/* --- THE HOLLOW TO FILLED BUTTON --- */
+button {
+    padding: 1.5rem; 
+    
+    /* Default State: Hollow */
     background: transparent;
     color: var(--text);
     border: 3px solid var(--text);
+    
+    /* 3D Effect for consistency */
     box-shadow: 0 6px 0 var(--text);
+    
     font-family: var(--font-mono);
     font-weight: 600;
     font-size: 1.1rem;
@@ -219,61 +231,34 @@ button#mode-toggle {
     display: block;
 }
 
-    button#mode-toggle:hover {
-        background: var(--text);
-        color: var(--bg);
-    }
+/* Hover State: Filled */
+button:hover {
+    background: var(--text);
+    color: var(--bg);
+    /* We keep the shadow on hover for a solid look */
+}
 
-    button#mode-toggle:active {
-        transform: translateY(4px);
-        box-shadow: 0 2px 0 var(--text);
-    }
+/* Click State: Presses down */
+button:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--text);
+}
 
-/* --- THE CLICKABLE CODE CARD --- */
+/* --- THE CRISPY CODE CARD --- */
 .code-output {
-    position: relative;
-    background: rgba(0,0,0,0.03);
+    background: rgba(0,0,0,0.03); /* Very subtle background */
     padding: 2rem;
     font-size: 1rem;
     border-radius: var(--radius);
     font-family: var(--font-mono);
-    width: 100%;
-    /* Neo-Brutalist Border & Shadow */
-    border: 3px solid var(--accent);
-    box-shadow: 0 8px 0 var(--accent);
-    /* Interactive Settings */
-    cursor: pointer; /* Changes cursor to hand */
-    user-select: none; /* Prevents text highlighting when clicking repeatedly */
-    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
-}
-
-    .code-output:hover {
-        background: rgba(0,0,0,0.05); /* Slight darken on hover */
-    }
-
-    /* The Press Animation */
-    .code-output:active {
-        transform: translateY(4px);
-        box-shadow: 0 4px 0 var(--accent);
-    }
-
-.code-scroll-wrapper {
     overflow-x: auto;
     width: 100%;
-    padding-bottom: 1.5rem; /* Space for the instruction text below */
-}
-
-/* Instruction Text Styling */
-.copy-instruction {
-    position: absolute;
-    bottom: 0.75rem;
-    right: 1rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    opacity: 0.6;
-    pointer-events: none; /* Lets clicks pass through to the card */
-    transition: opacity 0.2s;
+    
+    /* 1. Border is Accent Color */
+    border: 3px solid var(--accent);
+    
+    /* 2. Elongated Bottom (Hard Shadow) is Accent Color */
+    box-shadow: 0 8px 0 var(--accent);
 }
 
 /* --- Mobile / Tablet Responsive --- */
@@ -285,8 +270,8 @@ button#mode-toggle {
     }
 
     .preview-area {
-        align-items: center;
-        text-align: center;
+        align-items: center; 
+        text-align: center; 
         gap: 2rem;
     }
 
@@ -294,13 +279,13 @@ button#mode-toggle {
         justify-content: center;
         gap: 3rem;
     }
-
+    
     .stat-card {
         align-items: center;
     }
 
     .controls {
-        height: auto;
+        height: auto; 
         justify-content: flex-start;
         gap: 3rem;
     }
