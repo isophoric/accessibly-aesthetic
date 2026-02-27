@@ -14,10 +14,17 @@ let isDark = false;
 function updatePalette() {
     const h = parseFloat(hueInput.value);
     const c = parseFloat(chromaInput.value);
+    const baseC = parseFloat(baseChromaInput.value);
+    const baseChromaInput = document.getElementById('input-base-chroma');
+    const valBaseChroma = document.getElementById('val-base-chroma');
+    const infoLink = document.getElementById('info-link');
+    const modal = document.getElementById('info-modal');
+    const modalClose = document.getElementById('modal-close');
 
     // Update UI numbers
     valHue.innerText = h;
     valChroma.innerText = c;
+    valBaseChroma.innerText = baseC.toFixed(2);
 
     // Define Lightness
     const bgL = isDark ? 0.15 : 0.98;
@@ -25,8 +32,8 @@ function updatePalette() {
     const accentL = isDark ? 0.70 : 0.55;
 
     // Generate Hex
-    const bgHex = formatHex({ mode: 'oklch', l: bgL, c: 0.01, h: h });
-    const textHex = formatHex({ mode: 'oklch', l: textL, c: 0.02, h: h });
+    const bgHex = formatHex({ mode: 'oklch', l: bgL, c: baseC * 0.5, h: h });
+    const textHex = formatHex({ mode: 'oklch', l: textL, c: baseC, h: h });
     const accentHex = formatHex({ mode: 'oklch', l: accentL, c: c, h: h });
 
     // Apply CSS Variables
@@ -80,6 +87,7 @@ function updatePalette() {
 
 hueInput.addEventListener('input', updatePalette);
 chromaInput.addEventListener('input', updatePalette);
+baseChromaInput.addEventListener('input', updatePalette);
 
 modeBtn.addEventListener('click', () => {
     isDark = !isDark;
@@ -125,6 +133,17 @@ updatePalette = function() {
     originalUpdatePalette();
     updateCodeCardBackground();
 };
+
+// Info modal
+infoLink.addEventListener('click', () => {
+    modal.style.display = 'flex';
+});
+modalClose.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+});
 
 // Init
 updatePalette();
