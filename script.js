@@ -2,8 +2,10 @@ import { formatHex, wcagContrast } from 'https://cdn.jsdelivr.net/npm/culori@3.3
 
 const hueInput = document.getElementById('input-hue');
 const chromaInput = document.getElementById('input-chroma');
+const baseChromaInput = document.getElementById('input-base-chroma');
 const valHue = document.getElementById('val-hue');
 const valChroma = document.getElementById('val-chroma');
+const valBaseChroma = document.getElementById('val-base-chroma');
 const modeBtn = document.getElementById('mode-toggle');
 const cssCodeBlock = document.getElementById('css-code');
 const subtitle = document.getElementById('dynamic-subtitle');
@@ -15,11 +17,6 @@ function updatePalette() {
     const h = parseFloat(hueInput.value);
     const c = parseFloat(chromaInput.value);
     const baseC = parseFloat(baseChromaInput.value);
-    const baseChromaInput = document.getElementById('input-base-chroma');
-    const valBaseChroma = document.getElementById('val-base-chroma');
-    const infoLink = document.getElementById('info-link');
-    const modal = document.getElementById('info-modal');
-    const modalClose = document.getElementById('modal-close');
 
     // Update UI numbers
     valHue.innerText = h;
@@ -31,7 +28,7 @@ function updatePalette() {
     const textL = isDark ? 0.98 : 0.10;
     const accentL = isDark ? 0.70 : 0.55;
 
-    // Generate Hex
+    // Generate Hex (Contrast = subtle neutral tint)
     const bgHex = formatHex({ mode: 'oklch', l: bgL, c: baseC * 0.5, h: h });
     const textHex = formatHex({ mode: 'oklch', l: textL, c: baseC, h: h });
     const accentHex = formatHex({ mode: 'oklch', l: accentL, c: c, h: h });
@@ -40,12 +37,12 @@ function updatePalette() {
     document.documentElement.style.setProperty('--bg', bgHex);
     document.documentElement.style.setProperty('--text', textHex);
     document.documentElement.style.setProperty('--accent', accentHex);
-    
-    // Update Slider Track Color based on Mode (Visible line fix)
+   
+    // Update Slider Track Color
     const trackColor = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
     document.documentElement.style.setProperty('--track-color', trackColor);
 
-    // Update Text
+    // Update displayed hex values
     document.getElementById('hex-bg').innerText = bgHex;
     document.getElementById('hex-text').innerText = textHex;
     document.getElementById('hex-accent').innerText = accentHex;
@@ -59,13 +56,12 @@ function updatePalette() {
 
     // Contrast Check & Subtitle Update
     const contrast = wcagContrast(accentHex, bgHex);
-    const ratio = contrast.toFixed(2); // Specific ratio (e.g., 4.32)
-    
+    const ratio = contrast.toFixed(2);
+
     let passOrFail = "fails";
     let complianceLevel = "Fails WCAG";
     let wcagLink = "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html";
 
-    // Logic for WCAG Compliance Levels
     if (contrast >= 7.0) {
         passOrFail = "passes";
         complianceLevel = "WCAG AAA Compliant";
@@ -73,18 +69,17 @@ function updatePalette() {
         passOrFail = "passes";
         complianceLevel = "WCAG AA Compliant";
     } else if (contrast >= 3.0) {
-        // Technically passes for Large Text, but usually considered a partial pass/fail for generic UI
-        passOrFail = "partially passes"; 
+        passOrFail = "partially passes";
         complianceLevel = "WCAG AA Large Text Only";
     } else {
         passOrFail = "fails";
         complianceLevel = "Fails WCAG";
     }
 
-    // Insert HTML into subtitle with Link
     subtitle.innerHTML = `Your current palette ${passOrFail} with a ${ratio}:1 contrast ratio. (<a href="${wcagLink}" target="_blank" rel="noopener noreferrer">${complianceLevel}</a>)`;
 }
 
+// Event listeners
 hueInput.addEventListener('input', updatePalette);
 chromaInput.addEventListener('input', updatePalette);
 baseChromaInput.addEventListener('input', updatePalette);
@@ -95,55 +90,44 @@ modeBtn.addEventListener('click', () => {
     updatePalette();
 });
 
-// Make code card background theme-aware in dark mode
+// Code card background in dark mode
 function updateCodeCardBackground() {
     const codeOutput = document.querySelector('.code-output');
     const codeBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.03)';
     codeOutput.style.background = codeBg;
 }
 
-// Click-to-copy with nice feedback
+// Click-to-copy
 codeCard.addEventListener('click', async () => {
     const codeText = cssCodeBlock.textContent.trim();
-    
+   
     try {
         await navigator.clipboard.writeText(codeText);
-        
+       
         const hint = codeCard.querySelector('.copy-hint');
         const originalText = hint.textContent;
-        
+       
         hint.textContent = 'copied!';
         hint.style.opacity = '0.95';
         hint.style.fontStyle = 'normal';
-        
+       
         setTimeout(() => {
             hint.textContent = originalText;
             hint.style.opacity = '';
             hint.style.fontStyle = 'italic';
         }, 1800);
-        
+       
     } catch (err) {
         console.error('Copy failed:', err);
     }
 });
 
-// Call background update whenever palette changes
+// Wrapper so code card background updates on every change
 const originalUpdatePalette = updatePalette;
 updatePalette = function() {
     originalUpdatePalette();
     updateCodeCardBackground();
 };
-
-// Info modal
-infoLink.addEventListener('click', () => {
-    modal.style.display = 'flex';
-});
-modalClose.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.style.display = 'none';
-});
 
 // Init
 updatePalette();
