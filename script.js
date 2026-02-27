@@ -7,6 +7,7 @@ const valChroma = document.getElementById('val-chroma');
 const modeBtn = document.getElementById('mode-toggle');
 const cssCodeBlock = document.getElementById('css-code');
 const subtitle = document.getElementById('dynamic-subtitle');
+const codeCard = document.getElementById('code-card');
 
 let isDark = false;
 
@@ -85,6 +86,45 @@ modeBtn.addEventListener('click', () => {
     modeBtn.innerText = isDark ? "Switch to Light Mode" : "Switch to Dark Mode";
     updatePalette();
 });
+
+// Make code card background theme-aware in dark mode
+function updateCodeCardBackground() {
+    const codeOutput = document.querySelector('.code-output');
+    const codeBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.03)';
+    codeOutput.style.background = codeBg;
+}
+
+// Click-to-copy with nice feedback
+codeCard.addEventListener('click', async () => {
+    const codeText = cssCodeBlock.textContent.trim();
+    
+    try {
+        await navigator.clipboard.writeText(codeText);
+        
+        const hint = codeCard.querySelector('.copy-hint');
+        const originalText = hint.textContent;
+        
+        hint.textContent = 'copied!';
+        hint.style.opacity = '0.95';
+        hint.style.fontStyle = 'normal';
+        
+        setTimeout(() => {
+            hint.textContent = originalText;
+            hint.style.opacity = '';
+            hint.style.fontStyle = 'italic';
+        }, 1800);
+        
+    } catch (err) {
+        console.error('Copy failed:', err);
+    }
+});
+
+// Call background update whenever palette changes
+const originalUpdatePalette = updatePalette;
+updatePalette = function() {
+    originalUpdatePalette();
+    updateCodeCardBackground();
+};
 
 // Init
 updatePalette();
