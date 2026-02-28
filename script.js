@@ -3,9 +3,11 @@ import { formatHex, wcagContrast } from 'https://cdn.jsdelivr.net/npm/culori@3.3
 const hueInput = document.getElementById('input-hue');
 const chromaInput = document.getElementById('input-chroma');
 const baseChromaInput = document.getElementById('input-base-chroma');
+
 const valHue = document.getElementById('val-hue');
 const valChroma = document.getElementById('val-chroma');
 const valBaseChroma = document.getElementById('val-base-chroma');
+
 const modeBtn = document.getElementById('mode-toggle');
 const cssCodeBlock = document.getElementById('css-code');
 const subtitle = document.getElementById('dynamic-subtitle');
@@ -18,17 +20,17 @@ function updatePalette() {
     const c = parseFloat(chromaInput.value);
     const baseC = parseFloat(baseChromaInput.value);
 
-    // Update UI numbers
-    valHue.innerText = h;
-    valChroma.innerText = c;
-    valBaseChroma.innerText = baseC.toFixed(2);
+    // Update number inputs
+    valHue.value = h;
+    valChroma.value = c;
+    valBaseChroma.value = baseC.toFixed(2);
 
     // Define Lightness
     const bgL = isDark ? 0.15 : 0.98;
     const textL = isDark ? 0.98 : 0.10;
     const accentL = isDark ? 0.70 : 0.55;
 
-    // Generate Hex — Contrast slider adds subtle tint
+    // Generate Hex
     const bgHex = formatHex({ mode: 'oklch', l: bgL, c: baseC * 0.5, h: h });
     const textHex = formatHex({ mode: 'oklch', l: textL, c: baseC, h: h });
     const accentHex = formatHex({ mode: 'oklch', l: accentL, c: c, h: h });
@@ -79,10 +81,15 @@ function updatePalette() {
     subtitle.innerHTML = `Your current palette ${passOrFail} with a ${ratio}:1 contrast ratio. (<a href="${wcagLink}" target="_blank" rel="noopener noreferrer">${complianceLevel}</a>)`;
 }
 
-// Event listeners
+// Event listeners — sliders
 hueInput.addEventListener('input', updatePalette);
 chromaInput.addEventListener('input', updatePalette);
 baseChromaInput.addEventListener('input', updatePalette);
+
+// Event listeners — number inputs (typing!)
+valHue.addEventListener('input', () => { hueInput.value = valHue.value; updatePalette(); });
+valChroma.addEventListener('input', () => { chromaInput.value = valChroma.value; updatePalette(); });
+valBaseChroma.addEventListener('input', () => { baseChromaInput.value = valBaseChroma.value; updatePalette(); });
 
 modeBtn.addEventListener('click', () => {
     isDark = !isDark;
