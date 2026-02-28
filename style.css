@@ -291,6 +291,31 @@ button:active {
     opacity: 0.6;
 }
 
+/* Editable number inputs (clean & accessible) */
+.label-row input[type="number"] {
+    width: 65px;
+    text-align: right;
+    background: transparent;
+    border: 2px solid transparent;
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: inherit;
+    padding: 2px 6px;
+    border-radius: 6px;
+    transition: border-color 0.2s ease;
+}
+
+    .label-row input[type="number"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: rgba(255,255,255,0.6);
+    }
+
+body[data-theme="dark"] .label-row input[type="number"]:focus {
+    background: rgba(0,0,0,0.3);
+}
+
 /* --- Mobile / Tablet Responsive --- */
 @media (max-width: 900px) {
     .app-container {
