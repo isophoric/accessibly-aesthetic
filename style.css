@@ -344,4 +344,15 @@ body[data-theme="dark"] .label-row input[type="number"]:focus {
         justify-content: flex-start;
         gap: 3rem;
     }
+    /* Hide number input spinners (clean aesthetic) */
+.label-row input[type="number"]::-webkit-outer-spin-button,
+.label-row input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
+
+.label-row input[type="number"] {
+    -moz-appearance: textfield;
+}
+}
+
