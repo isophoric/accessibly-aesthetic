@@ -426,16 +426,17 @@ button.header-text-btn {
     opacity: 0.5;
 }
 
-.git-link {
+.icon-link {
     display: flex;
     align-items: center;
     text-decoration: none;
     transition: opacity 0.2s;
+    color: var(--text); /* Ensures icons match text color */
 }
 
-    .git-link:hover {
-        opacity: 0.7;
-    }
+.icon-link:hover {
+    opacity: 0.7;
+}
 
 /* --- info card dialogue --- */
 .info-container {
@@ -484,5 +485,30 @@ button.header-text-btn {
         }
 }
 
+/* --- Mobile Fixes --- */
+@media (max-width: 900px) {
+    
+    /* 1. Force Body to stack content from the top */
+    body {
+        justify-content: flex-start;
+        padding-top: 1rem;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    /* 2. Make Header take up real space (not floating) */
+    .site-header {
+        position: relative; 
+        top: auto;
+        left: auto;
+        margin-bottom: 3rem; /* Adds space between "What is this?" and "Accessibly Aesthetic" */
+        padding-top: 1rem;
+    }
+
+    /* 3. Ensure the app container doesn't overlap */
+    .app-container {
+        margin-top: 0;
+    }
+}
 
 
