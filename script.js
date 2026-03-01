@@ -1,5 +1,6 @@
 import { formatHex, wcagContrast } from 'https://cdn.jsdelivr.net/npm/culori@3.3.0/+esm';
 
+// --- DOM Elements ---
 const hueInput = document.getElementById('input-hue');
 const chromaInput = document.getElementById('input-chroma');
 const baseChromaInput = document.getElementById('input-base-chroma');
@@ -13,7 +14,13 @@ const cssCodeBlock = document.getElementById('css-code');
 const subtitle = document.getElementById('dynamic-subtitle');
 const codeCard = document.getElementById('code-card');
 
+// Header Elements
+const infoTrigger = document.getElementById('info-trigger');
+const infoDialog = document.getElementById('info-dialogue');
+
 let isDark = false;
+
+// --- Main Logic ---
 
 function updatePalette() {
     const h = parseFloat(hueInput.value);
@@ -79,14 +86,25 @@ function updatePalette() {
     }
 
     subtitle.innerHTML = `Your current palette ${passOrFail} with a ${ratio}:1 contrast ratio. (<a href="${wcagLink}" target="_blank" rel="noopener noreferrer">${complianceLevel}</a>)`;
+
+    // Update Code Card Background (Moved inside to avoid wrapper issues)
+    updateCodeCardBackground();
 }
 
-// Event listeners — sliders
+function updateCodeCardBackground() {
+    const codeOutput = document.querySelector('.code-output');
+    if (codeOutput) {
+        const codeBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.03)';
+        codeOutput.style.background = codeBg;
+    }
+}
+
+// --- Event Listeners: Main App ---
+
 hueInput.addEventListener('input', updatePalette);
 chromaInput.addEventListener('input', updatePalette);
 baseChromaInput.addEventListener('input', updatePalette);
 
-// Event listeners — number inputs (typing!)
 valHue.addEventListener('input', () => { hueInput.value = valHue.value; updatePalette(); });
 valChroma.addEventListener('input', () => { chromaInput.value = valChroma.value; updatePalette(); });
 valBaseChroma.addEventListener('input', () => { baseChromaInput.value = valBaseChroma.value; updatePalette(); });
@@ -97,44 +115,71 @@ modeBtn.addEventListener('click', () => {
     updatePalette();
 });
 
-// Code card background in dark mode
-function updateCodeCardBackground() {
-    const codeOutput = document.querySelector('.code-output');
-    const codeBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.03)';
-    codeOutput.style.background = codeBg;
-}
-
-// Click-to-copy
 codeCard.addEventListener('click', async () => {
     const codeText = cssCodeBlock.textContent.trim();
-   
     try {
         await navigator.clipboard.writeText(codeText);
-       
         const hint = codeCard.querySelector('.copy-hint');
         const originalText = hint.textContent;
-       
         hint.textContent = 'copied!';
         hint.style.opacity = '0.95';
         hint.style.fontStyle = 'normal';
-       
         setTimeout(() => {
             hint.textContent = originalText;
             hint.style.opacity = '';
             hint.style.fontStyle = 'italic';
         }, 1800);
-       
     } catch (err) {
         console.error('Copy failed:', err);
     }
 });
 
-// Wrapper so code card background updates on every change
-const originalUpdatePalette = updatePalette;
-updatePalette = function() {
-    originalUpdatePalette();
-    updateCodeCardBackground();
-};
+// --- Event Listeners: Header Info Toggle ---
 
-// Init
+if (infoTrigger && infoDialog) {
+    infoTrigger.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent document click from immediately closing it
+        
+        const isExpanded = infoTrigger.getAttribute('aria-expanded') === 'true';
+        
+        if (isExpanded) {
+            closeInfo();
+        } else {
+            openInfo();
+        }
+    });
+
+    // Close dialogue when clicking anywhere outside
+    document.addEventListener('click', (e) => {
+        if (infoDialog.classList.contains('visible') && !infoDialog.contains(e.target) && e.target !== infoTrigger) {
+            closeInfo();
+        }
+    });
+} else {
+    console.error("Header elements not found! Check HTML IDs.");
+}
+
+function openInfo() {
+    infoTrigger.setAttribute('aria-expanded', 'true');
+    infoTrigger.classList.add('active'); // Rotates the +
+    infoDialog.hidden = false;
+    
+    // Small timeout to allow display change to register before opacity transition
+    setTimeout(() => {
+        infoDialog.classList.add('visible');
+    }, 10);
+}
+
+function closeInfo() {
+    infoTrigger.setAttribute('aria-expanded', 'false');
+    infoTrigger.classList.remove('active'); // Rotates back
+    infoDialog.classList.remove('visible');
+    
+    // Wait for transition to finish before hiding element
+    setTimeout(() => {
+        infoDialog.hidden = true;
+    }, 200);
+}
+
+// --- Init ---
 updatePalette();
