@@ -1,487 +1,187 @@
-:root {
-    /* colors */
-    --bg: #ffffff;
-    --text: #1a1a1a;
-    --accent: #6366f1;
-    
-    /* dynamic track color for sliders */
-    --track-color: rgba(0, 0, 0, 0.2);
+import { formatHex, wcagContrast } from 'https://cdn.jsdelivr.net/npm/culori@3.3.0/+esm';
 
-    /* fonts */
-    --font-title: 'Lexend', sans-serif;
-    --font-mono: 'SF Mono', 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
+const hueInput = document.getElementById('input-hue');
+const chromaInput = document.getElementById('input-chroma');
+const baseChromaInput = document.getElementById('input-base-chroma');
 
-    /* card radius */
-    --radius: 12px;
-}
+const valHue = document.getElementById('val-hue');
+const valChroma = document.getElementById('val-chroma');
+const valBaseChroma = document.getElementById('val-base-chroma');
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+const modeBtn = document.getElementById('mode-toggle');
+const cssCodeBlock = document.getElementById('css-code');
+const subtitle = document.getElementById('dynamic-subtitle');
+const codeCard = document.getElementById('code-card');
 
-body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: var(--font-mono);
-    transition: background-color 0.3s ease, color 0.3s ease;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-}
+let isDark = false;
 
-a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-a:hover {
-    opacity: 0.8;
-}
+function updatePalette() {
+    const h = parseFloat(hueInput.value);
+    const c = parseFloat(chromaInput.value);
+    const baseC = parseFloat(baseChromaInput.value);
 
-.app-container {
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr; 
-    width: 100%;
-    max-width: 1200px;
-    gap: 5rem;
-    align-items: stretch; 
-}
+    // Update number inputs
+    valHue.value = h;
+    valChroma.value = c;
+    valBaseChroma.value = baseC.toFixed(2);
 
-/* --- left column --- */
-.preview-area {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 3rem; 
-    align-items: flex-start;
-}
+    // Define Lightness
+    const bgL = isDark ? 0.15 : 0.98;
+    const textL = isDark ? 0.98 : 0.10;
+    const accentL = isDark ? 0.70 : 0.55;
 
-.header-content {
-    width: 100%;
-}
+    // Generate Hex
+    const bgHex = formatHex({ mode: 'oklch', l: bgL, c: baseC * 0.5, h: h });
+    const textHex = formatHex({ mode: 'oklch', l: textL, c: baseC, h: h });
+    const accentHex = formatHex({ mode: 'oklch', l: accentL, c: c, h: h });
 
-.title {
-    font-family: var(--font-title);
-    font-weight: 500;
-    font-size: clamp(4rem, 9vw, 7.5rem); 
-    line-height: 1.05;
-    margin-bottom: 1.5rem;
-    letter-spacing: -2px;
-}
-
-.description {
-    font-size: 1.3rem;
-    opacity: 0.9;
-    line-height: 1.6;
-    max-width: 100%; 
-    font-family: var(--font-mono);
-}
-
-/* --- hex color card --- */
-.stats-row {
-    background: var(--accent);
-    padding: 3rem 2.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 2rem;
-    color: var(--bg); 
-    border-radius: var(--radius);
-    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
-    width: 100%; 
-    
-    /* border is text color */
-    border: 3px solid var(--text);
-    
-    /* elongated bottom is text color */
-    box-shadow: 0 8px 0 var(--text);
-}
-
-/* press effect on the card */
-.stats-row:active {
-    transform: translateY(4px);
-    box-shadow: 0 4px 0 var(--text);
-}
-
-.stat-card {
-    display: flex;
-    flex-direction: column;
-    min-width: 120px;
-}
-
-.label { 
-    font-size: 0.9rem; 
-    text-transform: uppercase; 
-    opacity: 0.9; 
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    letter-spacing: 1px;
-}
-
-.hex-value { 
-    font-family: var(--font-mono);
-    font-size: 1.8rem; 
-    font-weight: bold; 
-}
-
-/* --- right column controls and code --- */
-.controls {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-    height: 100%; 
-    gap: 2rem;
-    width: 100%;
-}
-
-.controls-top {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    width: 100%;
-}
-
-.control-group {
-    width: 100%;
-}
-
-.control-group label { 
-    font-weight: 600;
-    font-size: 1.1rem; 
-}
-
-.label-row { 
-    display: flex; 
-    justify-content: space-between; 
-    margin-bottom: 0.75rem; 
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-}
-
-/* --- fixed slider --- */
-input[type="range"] {
-    -webkit-appearance: none; 
-    width: 100%;
-    background: transparent; 
-    cursor: pointer;
-    margin-top: 0.5rem; 
-    display: block;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 4px;
-    background: var(--track-color); 
-    border-radius: 5px;
-    border: none;
-}
-
-input[type="range"]::-moz-range-track {
-    width: 100%;
-    height: 4px;
-    background: var(--track-color);
-    border-radius: 5px;
-    border: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 26px;
-    width: 26px;
-    border-radius: 50%;
-    background: var(--accent);
-    margin-top: -11px;
-    box-shadow: 0 0 0 4px var(--bg); 
-    border: 3px solid var(--text);
-}
-
-input[type="range"]::-moz-range-thumb {
-    height: 26px;
-    width: 26px;
-    border: none;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 0 4px var(--bg);
-    border: 3px solid var(--text);
-}
-
-/* --- fill button (dark theme) --- */
-button {
-    padding: 1.5rem; 
-    
-    /* default State (hollow) */
-    background: transparent;
-    color: var(--text);
-    border: 3px solid var(--text);
-    
-    /* 3D effect */
-    box-shadow: 0 6px 0 var(--text);
-    
-    font-family: var(--font-mono);
-    font-weight: 600;
-    font-size: 1.1rem;
-    cursor: pointer;
-    border-radius: var(--radius);
-    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-    width: 100%;
-    display: block;
-}
-
-/* hover state (filled) */
-button:hover {
-    background: var(--text);
-    color: var(--bg);
-}
-
-/* click state (presses down) */
-button:active {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 var(--text);
-}
-
-/* --- code card --- */
-.code-output {
-    position: relative;
-    background: rgba(0,0,0,0.03);
-    padding: 2rem;
-    font-size: 1rem;
-    border-radius: var(--radius);
-    font-family: var(--font-mono);
-    overflow-x: auto;
-    width: 100%;
-    /* 1. Border is Accent Color */
-    border: 3px solid var(--accent);
-    /* 2. Elongated Bottom (Hard Shadow) is Accent Color */
-    box-shadow: 0 8px 0 var(--accent);
-    cursor: pointer;
-    user-select: none;
-    transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-    .code-output:active {
-        transform: translateY(4px);
-        box-shadow: 0 4px 0 var(--accent);
-    }
-
-.copy-hint {
-    position: absolute;
-    bottom: 14px;
-    right: 18px;
-    font-size: 0.78rem;
-    opacity: 0.75;
-    color: var(--text);
-    font-style: italic;
-    pointer-events: none;
-    user-select: none;
-    transition: opacity 0.2s ease;
-}
-
-.code-output:hover .copy-hint {
-    opacity: 0.6;
-}
-
-/* editable number inputs (clean & accessible) */
-.label-row input[type="number"] {
-    width: 65px;
-    text-align: right;
-    background: transparent;
-    border: 2px solid transparent;
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: inherit;
-    padding: 2px 6px;
-    border-radius: 6px;
-    transition: border-color 0.2s ease;
-    -moz-appearance: textfield;           /* Firefox */
-}
-
-.label-row input[type="number"]::-webkit-outer-spin-button,
-.label-row input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.label-row input[type="number"]:focus {
-    outline: none;
-    border-color: var(--accent);
-    background: rgba(255,255,255,0.6);
-}
-
-body[data-theme="dark"] .label-row input[type="number"]:focus {
-    background: rgba(0,0,0,0.3);
-}
-
-/* --- mobile responsive --- */
-@media (max-width: 900px) {
-    .app-container {
-        grid-template-columns: 1fr;
-        gap: 4rem;
-        height: auto;
-    }
-    .preview-area {
-        align-items: center;
-        text-align: center;
-        gap: 2rem;
-    }
-    .stats-row {
-        justify-content: center;
-        gap: 3rem;
-    }
+    // Apply CSS Variables
+    document.documentElement.style.setProperty('--bg', bgHex);
+    document.documentElement.style.setProperty('--text', textHex);
+    document.documentElement.style.setProperty('--accent', accentHex);
    
-    .stat-card {
-        align-items: center;
-    }
-    .controls {
-        height: auto;
-        justify-content: flex-start;
-        gap: 3rem;
-    }
-    .site-header {
-        position: relative; /* Stops it from floating over content */
-        top: auto;
-        left: auto;
-        padding-top: 0;
-        margin-bottom: 2rem; /* Pushes the title down */
-    }
-    body {
-        justify-content: flex-start; /* Starts content at the top */
-        height: auto;
-    }
-}
+    // Update Slider Track Color
+    const trackColor = isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)';
+    document.documentElement.style.setProperty('--track-color', trackColor);
 
-/* --- header styles --- */
-.site-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding-top: 2rem;
-    display: flex;
-    justify-content: center;
-    z-index: 1000;
-    margin-bottom: 0;
-    opacity: 0.75
-}
+    // Update displayed hex values
+    document.getElementById('hex-bg').innerText = bgHex;
+    document.getElementById('hex-text').innerText = textHex;
+    document.getElementById('hex-accent').innerText = accentHex;
 
-.header-inner {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-family: var(--font-mono);
-    font-size: 1rem;
-    position: relative;
-}
+    // Update Code Block
+    cssCodeBlock.innerText = `:root {
+  --bg: ${bgHex};
+  --text: ${textHex};
+  --accent: ${accentHex};
+}`;
 
-/* reset default button styles for the header button */
-button.header-text-btn {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    margin: 0;
-    width: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--text);
-    font-family: var(--font-mono);
-    font-weight: normal;
-    cursor: pointer;
-    transform: none;
-}
+    // Contrast Check & Subtitle
+    const contrast = wcagContrast(accentHex, bgHex);
+    const ratio = contrast.toFixed(2);
 
-    /* override hover/active effects from the global button style */
-    button.header-text-btn:hover {
-        background: transparent;
-        color: var(--text);
-        opacity: 0.7;
+    let passOrFail = "fails";
+    let complianceLevel = "Fails WCAG";
+    let wcagLink = "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html";
+
+    if (contrast >= 7.0) {
+        passOrFail = "passes";
+        complianceLevel = "WCAG AAA Compliant";
+    } else if (contrast >= 4.5) {
+        passOrFail = "passes";
+        complianceLevel = "WCAG AA Compliant";
+    } else if (contrast >= 3.0) {
+        passOrFail = "partially passes";
+        complianceLevel = "WCAG AA Large Text Only";
+    } else {
+        passOrFail = "fails";
+        complianceLevel = "Fails WCAG";
     }
 
-    button.header-text-btn:active {
-        transform: none;
-        box-shadow: none;
+    subtitle.innerHTML = `Your current palette ${passOrFail} with a ${ratio}:1 contrast ratio. (<a href="${wcagLink}" target="_blank" rel="noopener noreferrer">${complianceLevel}</a>)`;
+}
+
+// Event listeners — sliders
+hueInput.addEventListener('input', updatePalette);
+chromaInput.addEventListener('input', updatePalette);
+baseChromaInput.addEventListener('input', updatePalette);
+
+// Event listeners — number inputs (typing!)
+valHue.addEventListener('input', () => { hueInput.value = valHue.value; updatePalette(); });
+valChroma.addEventListener('input', () => { chromaInput.value = valChroma.value; updatePalette(); });
+valBaseChroma.addEventListener('input', () => { baseChromaInput.value = valBaseChroma.value; updatePalette(); });
+
+modeBtn.addEventListener('click', () => {
+    isDark = !isDark;
+    modeBtn.innerText = isDark ? "Switch to Light Mode" : "Switch to Dark Mode";
+    updatePalette();
+});
+
+// Code card background in dark mode
+function updateCodeCardBackground() {
+    const codeOutput = document.querySelector('.code-output');
+    const codeBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.03)';
+    codeOutput.style.background = codeBg;
+}
+
+// Click-to-copy
+codeCard.addEventListener('click', async () => {
+    const codeText = cssCodeBlock.textContent.trim();
+   
+    try {
+        await navigator.clipboard.writeText(codeText);
+       
+        const hint = codeCard.querySelector('.copy-hint');
+        const originalText = hint.textContent;
+       
+        hint.textContent = 'copied!';
+        hint.style.opacity = '0.95';
+        hint.style.fontStyle = 'normal';
+       
+        setTimeout(() => {
+            hint.textContent = originalText;
+            hint.style.opacity = '';
+            hint.style.fontStyle = 'italic';
+        }, 1800);
+       
+    } catch (err) {
+        console.error('Copy failed:', err);
     }
+});
 
-/* plus icon rotation */
-.plus-icon {
-    display: inline-block;
-    font-weight: bold;
-    font-size: 1.2rem;
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    line-height: 1;
-}
+// Wrapper so code card background updates on every change
+const originalUpdatePalette = updatePalette;
+updatePalette = function() {
+    originalUpdatePalette();
+    updateCodeCardBackground();
+};
 
-/* when active, rotate to X */
-.header-text-btn.active .plus-icon {
-    transform: rotate(45deg);
-}
+// Init
+updatePalette();
 
-.divider {
-    opacity: 0.5;
-}
+// --- Header Info Toggle Logic ---
+const infoTrigger = document.getElementById('info-trigger');
+const infoDialog = document.getElementById('info-dialogue');
 
-.git-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: opacity 0.2s;
-}
-
-    .git-link:hover {
-        opacity: 0.7;
+infoTrigger.addEventListener('click', (e) => {
+    // Stop propagation so clicking the button doesn't immediately trigger the document click listener
+    e.stopPropagation();
+    
+    const isExpanded = infoTrigger.getAttribute('aria-expanded') === 'true';
+    
+    // Toggle state
+    if (isExpanded) {
+        closeInfo();
+    } else {
+        openInfo();
     }
+});
 
-/* --- info card dialogue --- */
-.info-container {
-    position: relative;
+function openInfo() {
+    infoTrigger.setAttribute('aria-expanded', 'true');
+    infoTrigger.classList.add('active'); // Rotates the +
+    infoDialog.hidden = false;
+    
+    // Small timeout to allow display change to register before opacity transition
+    setTimeout(() => {
+        infoDialog.classList.add('visible');
+    }, 10);
 }
 
-.info-card {
-    position: absolute;
-    top: calc(100% + 15px); /* Position it slightly below the button */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 320px; /* Slightly wider for better readability */
-    background: var(--bg);
-    padding: 1.5rem;
-    border: 3px solid var(--text);
-    border-radius: var(--radius);
-    box-shadow: 0 6px 0 var(--text);
-    font-family: var(--font-mono);
-    font-size: 0.85rem; /* Slightly smaller text for the card */
-    line-height: 1.5;
-    z-index: 2000; /* Must be very high to float over everything */
-    /* animation */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-    pointer-events: none;
+function closeInfo() {
+    infoTrigger.setAttribute('aria-expanded', 'false');
+    infoTrigger.classList.remove('active'); // Rotates back
+    infoDialog.classList.remove('visible');
+    
+    // Wait for transition to finish before hiding element
+    setTimeout(() => {
+        infoDialog.hidden = true;
+    }, 200);
 }
 
-    .info-card.visible {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-        transform: translateX(-50%) translateY(0);
+// Close dialogue when clicking anywhere outside
+document.addEventListener('click', (e) => {
+    if (infoDialog.classList.contains('visible') && !infoDialog.contains(e.target) && e.target !== infoTrigger) {
+        closeInfo();
     }
-
-/* mobile tweak for card positioning */
-@media (max-width: 600px) {
-    .info-card {
-        left: 0;
-        transform: none;
-        width: 280px;
-    }
-
-        .info-card.visible {
-            transform: translateY(0);
-        }
-}
-
-
+});
