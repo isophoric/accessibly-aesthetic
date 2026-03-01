@@ -24,10 +24,11 @@
 body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: var(--font-mono); 
+    font-family: var(--font-mono);
     transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 2rem;
@@ -341,8 +342,146 @@ body[data-theme="dark"] .label-row input[type="number"]:focus {
         justify-content: flex-start;
         gap: 3rem;
     }
+    .site-header {
+        position: relative; /* Stops it from floating over content */
+        top: auto;
+        left: auto;
+        padding-top: 0;
+        margin-bottom: 2rem; /* Pushes the title down */
+    }
+    body {
+        justify-content: flex-start; /* Starts content at the top */
+        height: auto;
+    }
 }
 
+/* --- header styles --- */
+.site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    margin-bottom: 0;
+    opacity: 0.75
+}
 
+.header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    position: relative;
+}
+
+/* reset default button styles for the header button */
+button.header-text-btn {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-weight: normal;
+    cursor: pointer;
+    transform: none;
+}
+
+    /* override hover/active effects from the global button style */
+    button.header-text-btn:hover {
+        background: transparent;
+        color: var(--text);
+        opacity: 0.7;
+    }
+
+    button.header-text-btn:active {
+        transform: none;
+        box-shadow: none;
+    }
+
+/* plus icon rotation */
+.plus-icon {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1;
+}
+
+/* when active, rotate to X */
+.header-text-btn.active .plus-icon {
+    transform: rotate(45deg);
+}
+
+.divider {
+    opacity: 0.5;
+}
+
+.git-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+    .git-link:hover {
+        opacity: 0.7;
+    }
+
+/* --- info card dialogue --- */
+.info-container {
+    position: relative;
+}
+
+.info-card {
+    position: absolute;
+    top: calc(100% + 15px); /* Position it slightly below the button */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px; /* Slightly wider for better readability */
+    background: var(--bg);
+    padding: 1.5rem;
+    border: 3px solid var(--text);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 0 var(--text);
+    font-family: var(--font-mono);
+    font-size: 0.85rem; /* Slightly smaller text for the card */
+    line-height: 1.5;
+    z-index: 2000; /* Must be very high to float over everything */
+    /* animation */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    pointer-events: none;
+}
+
+    .info-card.visible {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0);
+    }
+
+/* mobile tweak for card positioning */
+@media (max-width: 600px) {
+    .info-card {
+        left: 0;
+        transform: none;
+        width: 280px;
+    }
+
+        .info-card.visible {
+            transform: translateY(0);
+        }
+}
 
 
