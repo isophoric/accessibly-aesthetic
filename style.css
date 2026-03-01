@@ -3,24 +3,20 @@
     --bg: #ffffff;
     --text: #1a1a1a;
     --accent: #6366f1;
-    
+   
     /* dynamic track color for sliders */
     --track-color: rgba(0, 0, 0, 0.2);
-
     /* fonts */
     --font-title: 'Lexend', sans-serif;
     --font-mono: 'SF Mono', 'Segoe UI Mono', 'Consolas', 'Menlo', monospace;
-
     /* card radius */
     --radius: 12px;
 }
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
 body {
     background-color: var(--bg);
     color: var(--text);
@@ -33,7 +29,6 @@ body {
     justify-content: center;
     padding: 2rem;
 }
-
 a {
     color: inherit;
     text-decoration: underline;
@@ -42,46 +37,40 @@ a {
 a:hover {
     opacity: 0.8;
 }
-
 .app-container {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr; 
+    grid-template-columns: 1.2fr 0.8fr;
     width: 100%;
     max-width: 1200px;
     gap: 5rem;
-    align-items: stretch; 
+    align-items: stretch;
 }
-
 /* --- left column --- */
 .preview-area {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 3rem; 
+    gap: 3rem;
     align-items: flex-start;
 }
-
 .header-content {
     width: 100%;
 }
-
 .title {
     font-family: var(--font-title);
     font-weight: 500;
-    font-size: clamp(4rem, 9vw, 7.5rem); 
+    font-size: clamp(4rem, 9vw, 7.5rem);
     line-height: 1.05;
     margin-bottom: 1.5rem;
     letter-spacing: -2px;
 }
-
 .description {
     font-size: 1.3rem;
     opacity: 0.9;
     line-height: 1.6;
-    max-width: 100%; 
+    max-width: 100%;
     font-family: var(--font-mono);
 }
-
 /* --- hex color card --- */
 .stats-row {
     background: var(--accent);
@@ -90,97 +79,85 @@ a:hover {
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 2rem;
-    color: var(--bg); 
+    color: var(--bg);
     border-radius: var(--radius);
     transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.1s ease;
-    width: 100%; 
-    
+    width: 100%;
+   
     /* border is text color */
     border: 3px solid var(--text);
-    
+   
     /* elongated bottom is text color */
     box-shadow: 0 8px 0 var(--text);
 }
-
 /* press effect on the card */
 .stats-row:active {
     transform: translateY(4px);
     box-shadow: 0 4px 0 var(--text);
 }
-
 .stat-card {
     display: flex;
     flex-direction: column;
     min-width: 120px;
 }
-
-.label { 
-    font-size: 0.9rem; 
-    text-transform: uppercase; 
-    opacity: 0.9; 
+.label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    opacity: 0.9;
     font-weight: 600;
     margin-bottom: 0.5rem;
     letter-spacing: 1px;
 }
-
-.hex-value { 
+.hex-value {
     font-family: var(--font-mono);
-    font-size: 1.8rem; 
-    font-weight: bold; 
+    font-size: 1.8rem;
+    font-weight: bold;
 }
-
 /* --- right column controls and code --- */
 .controls {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; 
-    height: 100%; 
+    justify-content: space-between;
+    height: 100%;
     gap: 2rem;
     width: 100%;
 }
-
 .controls-top {
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
     width: 100%;
 }
-
 .control-group {
     width: 100%;
 }
-
-.control-group label { 
+.control-group label {
     font-weight: 600;
-    font-size: 1.1rem; 
+    font-size: 1.1rem;
 }
-
-.label-row { 
-    display: flex; 
-    justify-content: space-between; 
-    margin-bottom: 0.75rem; 
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
     font-family: var(--font-mono);
     font-size: 1.1rem;
 }
-
 /* --- fixed slider --- */
 input[type="range"] {
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
     width: 100%;
-    background: transparent; 
+    background: transparent;
     cursor: pointer;
-    margin-top: 0.5rem; 
+    margin-top: 0.5rem;
     display: block;
 }
-
 input[type="range"]::-webkit-slider-runnable-track {
     width: 100%;
     height: 4px;
-    background: var(--track-color); 
+    background: var(--track-color);
     border-radius: 5px;
     border: none;
 }
-
 input[type="range"]::-moz-range-track {
     width: 100%;
     height: 4px;
@@ -188,7 +165,6 @@ input[type="range"]::-moz-range-track {
     border-radius: 5px;
     border: none;
 }
-
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: 26px;
@@ -196,10 +172,9 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 50%;
     background: var(--accent);
     margin-top: -11px;
-    box-shadow: 0 0 0 4px var(--bg); 
+    box-shadow: 0 0 0 4px var(--bg);
     border: 3px solid var(--text);
 }
-
 input[type="range"]::-moz-range-thumb {
     height: 26px;
     width: 26px;
@@ -209,19 +184,18 @@ input[type="range"]::-moz-range-thumb {
     box-shadow: 0 0 0 4px var(--bg);
     border: 3px solid var(--text);
 }
-
 /* --- fill button (dark theme) --- */
 button {
-    padding: 1.5rem; 
-    
+    padding: 1.5rem;
+   
     /* default State (hollow) */
     background: transparent;
     color: var(--text);
     border: 3px solid var(--text);
-    
+   
     /* 3D effect */
     box-shadow: 0 6px 0 var(--text);
-    
+   
     font-family: var(--font-mono);
     font-weight: 600;
     font-size: 1.1rem;
@@ -231,19 +205,16 @@ button {
     width: 100%;
     display: block;
 }
-
 /* hover state (filled) */
 button:hover {
     background: var(--text);
     color: var(--bg);
 }
-
 /* click state (presses down) */
 button:active {
     transform: translateY(4px);
     box-shadow: 0 2px 0 var(--text);
 }
-
 /* --- code card --- */
 .code-output {
     position: relative;
@@ -262,12 +233,10 @@ button:active {
     user-select: none;
     transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
-
     .code-output:active {
         transform: translateY(4px);
         box-shadow: 0 4px 0 var(--accent);
     }
-
 .copy-hint {
     position: absolute;
     bottom: 14px;
@@ -280,11 +249,9 @@ button:active {
     user-select: none;
     transition: opacity 0.2s ease;
 }
-
 .code-output:hover .copy-hint {
     opacity: 0.6;
 }
-
 /* editable number inputs (clean & accessible) */
 .label-row input[type="number"] {
     width: 65px;
@@ -298,25 +265,21 @@ button:active {
     padding: 2px 6px;
     border-radius: 6px;
     transition: border-color 0.2s ease;
-    -moz-appearance: textfield;           /* Firefox */
+    -moz-appearance: textfield; /* Firefox */
 }
-
 .label-row input[type="number"]::-webkit-outer-spin-button,
 .label-row input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 .label-row input[type="number"]:focus {
     outline: none;
     border-color: var(--accent);
     background: rgba(255,255,255,0.6);
 }
-
 body[data-theme="dark"] .label-row input[type="number"]:focus {
     background: rgba(0,0,0,0.3);
 }
-
 /* --- mobile responsive --- */
 @media (max-width: 900px) {
     .app-container {
@@ -333,7 +296,7 @@ body[data-theme="dark"] .label-row input[type="number"]:focus {
         justify-content: center;
         gap: 3rem;
     }
-   
+  
     .stat-card {
         align-items: center;
     }
@@ -354,7 +317,6 @@ body[data-theme="dark"] .label-row input[type="number"]:focus {
         height: auto;
     }
 }
-
 /* --- header styles --- */
 .site-header {
     position: absolute;
@@ -368,7 +330,6 @@ body[data-theme="dark"] .label-row input[type="number"]:focus {
     margin-bottom: 0;
     opacity: 1
 }
-
 .header-inner {
     display: flex;
     align-items: center;
@@ -377,7 +338,6 @@ body[data-theme="dark"] .label-row input[type="number"]:focus {
     font-size: 1rem;
     position: relative;
 }
-
 /* reset default button styles for the header button */
 button.header-text-btn {
     background: transparent;
@@ -395,19 +355,16 @@ button.header-text-btn {
     cursor: pointer;
     transform: none;
 }
-
     /* override hover/active effects from the global button style */
     button.header-text-btn:hover {
         background: transparent;
         color: var(--text);
         opacity: 0.7;
     }
-
     button.header-text-btn:active {
         transform: none;
         box-shadow: none;
     }
-
 /* plus icon rotation */
 .plus-icon {
     display: inline-block;
@@ -416,16 +373,13 @@ button.header-text-btn {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     line-height: 1;
 }
-
 /* when active, rotate to X */
 .header-text-btn.active .plus-icon {
     transform: rotate(45deg);
 }
-
 .divider {
     opacity: 0.5;
 }
-
 .icon-link {
     display: flex;
     align-items: center;
@@ -433,16 +387,13 @@ button.header-text-btn {
     transition: opacity 0.2s;
     color: var(--text); /* Ensures icons match text color */
 }
-
 .icon-link:hover {
     opacity: 0.7;
 }
-
 /* --- info card dialogue --- */
 .info-container {
     position: relative;
 }
-
 .info-card {
     position: absolute;
     top: calc(100% + 15px); /* Position it slightly below the button */
@@ -464,14 +415,12 @@ button.header-text-btn {
     transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
     pointer-events: none;
 }
-
     .info-card.visible {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
         transform: translateX(-50%) translateY(0);
     }
-
 /* mobile tweak for card positioning */
 @media (max-width: 600px) {
     .info-card {
@@ -479,15 +428,13 @@ button.header-text-btn {
         transform: none;
         width: 280px;
     }
-
         .info-card.visible {
             transform: translateY(0);
         }
 }
-
 /* --- Mobile Fixes --- */
 @media (max-width: 900px) {
-    
+   
     /* 1. Force Body to stack content from the top */
     body {
         justify-content: flex-start;
@@ -495,30 +442,16 @@ button.header-text-btn {
         height: auto;
         min-height: 100vh;
     }
-
     /* 2. Make Header take up real space (not floating) */
     .site-header {
-        position: relative; 
+        position: relative;
         top: auto;
         left: auto;
         margin-bottom: 3rem; /* Adds space between "What is this?" and "Accessibly Aesthetic" */
         padding-top: 1rem;
     }
-
     /* 3. Ensure the app container doesn't overlap */
     .app-container {
         margin-top: 0;
     }
-    /* Percentage suffix */
-.label-row .percent {
-    margin-left: 4px;
-    font-size: 1.05rem;
-    opacity: 0.75;
-    font-weight: normal;
-    pointer-events: none;
 }
-}
-
-
-
-
