@@ -510,14 +510,15 @@ button.header-text-btn {
         margin-top: 0;
     }
     /* Percentage suffix */
-    .label-row .percent {
+.label-row .percent {
     margin-left: 4px;
     font-size: 1.05rem;
     opacity: 0.75;
     font-weight: normal;
     pointer-events: none;
-    }
 }
+}
+
 
 
 
